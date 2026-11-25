@@ -1,0 +1,13 @@
+# Dépendances constatées en cours de trimestre sans avoir été signalées.
+# Renseigné par le coordinateur (à la main, par PR). Chaque entrée alimente la mesure
+# trimestrielle (scripts/faux_positifs.py) et une proposition d'enrichissement de la carte.
+#
+# Exemple :
+#  - trimestre: 2027-T1
+#    epique: EP-302
+#    equipe_cible: EQ-F
+#    domaine_source: DOM-06
+#    domaine_cible: DOM-12
+#    constat: "Traçabilité réglementaire des mouvements de stock découverte en sprint 3"
+#    signale_par: COORDINATEUR
+ratees: []

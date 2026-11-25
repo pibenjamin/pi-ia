@@ -1,0 +1,32 @@
+# Paramètres du simulacre. Tout est fictif.
+trimestre_planifie: 2027-T1
+trimestres_historique: [2026-T2, 2026-T3, 2026-T4]
+sprints_par_trimestre: 6
+
+dependances:
+  # Un domaine coché en dessous de ce seuil ne déclenche pas de signal par les règles.
+  seuil_certitude: 50
+  # Score de confiance (critères observables, voir skills/analyse-dependances).
+  seuil_confiance_haute: 5
+  seuil_confiance_moyenne: 3
+
+capacite:
+  points_par_etp_par_sprint: 8
+  poids_anomalie_bloquante: 3
+  poids_anomalie_mineure: 1
+  # facteur qualité = 1 / (1 + coef x anomalies pondérées moyennes par release)
+  coef_anomalies: 0.02
+  seuil_tension: 0.85
+  seuil_surcharge: 1.0
+  # part de "présent mais pas disponible sur le projet" au-delà de laquelle on signale
+  seuil_non_disponible: 0.25
+
+flux:
+  date_reference: 2026-11-25
+  seuil_stagnation_jours: 10
+  # WIP maximum par équipe (tickets en cours simultanément)
+  limite_wip: 6
+
+release:
+  max_anomalies_bloquantes_ouvertes: 0
+  couverture_tests_min: 0.75

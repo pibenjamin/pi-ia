@@ -1,0 +1,47 @@
+name: 4a. Capacité-charge
+# Recalcul à chaque changement des disponibilités, de l'historique ou du backlog
+# (sur la branche par défaut), ou lancé par l'orchestration.
+on:
+  push:
+    branches: [main]
+    paths: [capacity/**, history/**, backlog/**, config/**]
+  workflow_dispatch:
+    inputs:
+      ia: {type: boolean, default: true}
+  workflow_call:
+    inputs:
+      ia: {type: boolean, default: true}
+permissions:
+  contents: write
+jobs:
+  capacite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparer
+      - id: calcul
+        run: |
+          python scripts/capacite.py | tee -a "$GITHUB_STEP_SUMMARY"
+          t=$(python -c "import sys; sys.path.insert(0,'scripts'); import commun; print(commun.parametres()['trimestre_planifie'])")
+          echo "trimestre=$t" >> "$GITHUB_OUTPUT"
+          ecarts=$(python -c "import json; d=json.load(open('reports/capacite-$t.json')); print(any(v['etat']!='ok' or v['alerte_non_disponible'] for v in d['equipes'].values()))")
+          echo "ecarts=$ecarts" >> "$GITHUB_OUTPUT"
+      - id: agent
+        if: steps.calcul.outputs.ecarts == 'True'
+        uses: ./.github/actions/agent-claude
+        with:
+          actif: ${{ vars.AGENTS_IA_ACTIFS != 'false' && inputs.ia != false }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          modele: ${{ vars.CLAUDE_MODELE || 'claude-sonnet-5-5' }}
+          max_tours: "8"
+          perimetre: reports/
+          prompt: |
+            SIMULACRE (données fictives). Applique skills/capacite/SKILL.md au fichier
+            reports/capacite-${{ steps.calcul.outputs.trimestre }}.json. Écris uniquement
+            reports/capacite-${{ steps.calcul.outputs.trimestre }}-commentaire.md.
+      - uses: ./.github/actions/commit
+        with:
+          chemins: reports/
+          message: "Capacité-charge ${{ steps.calcul.outputs.trimestre }} recalculée"

@@ -1,0 +1,59 @@
+{
+  "release": "R-2027.1",
+  "date_cible": "2027-03-24",
+  "perimetre": [
+    {
+      "epique": "EP-103",
+      "equipe": "EQ-A",
+      "feature_flag": "delegation_acces"
+    },
+    {
+      "epique": "EP-202",
+      "equipe": "EQ-B",
+      "feature_flag": null
+    },
+    {
+      "epique": "EP-402",
+      "equipe": "EQ-D",
+      "feature_flag": "prelevement_recurrent"
+    },
+    {
+      "epique": "EP-602",
+      "equipe": "EQ-F",
+      "feature_flag": "purge_selective"
+    }
+  ],
+  "criteres": [
+    {
+      "critere": "tests automatisés",
+      "respecte": true,
+      "detail": "1842 / 1842 réussis"
+    },
+    {
+      "critere": "couverture",
+      "respecte": true,
+      "detail": "78% (minimum 75%)"
+    },
+    {
+      "critere": "non-régression",
+      "respecte": false,
+      "detail": "archivage-legal : 2 cas sur 40 : purge d'un client avec litige en cours"
+    },
+    {
+      "critere": "anomalies bloquantes",
+      "respecte": true,
+      "detail": "0 bloquantes, 7 mineures ouvertes"
+    },
+    {
+      "critere": "plan de monitoring",
+      "respecte": false,
+      "detail": "sans plan : EP-602"
+    },
+    {
+      "critere": "retour arrière",
+      "respecte": true,
+      "detail": "Désactivation des feature flags ; EP-202 sans flag : redéploiement de la version précédente. (sans feature flag : EP-202)"
+    }
+  ],
+  "proposition_regles": "go sous conditions"
+}

@@ -1,0 +1,28 @@
+# Release candidate fictive. Le changement de "statut" vers "candidate" déclenche le
+# workflow release (brouillon de dossier go/no-go).
+release: R-2027.1
+statut: candidate
+date_cible: 2027-03-24
+perimetre:
+  - {epique: EP-103, equipe: EQ-A, feature_flag: delegation_acces}
+  - {epique: EP-202, equipe: EQ-B, feature_flag: null}
+  - {epique: EP-402, equipe: EQ-D, feature_flag: prelevement_recurrent}
+  - {epique: EP-602, equipe: EQ-F, feature_flag: purge_selective}
+tests:
+  executes: 1842
+  reussis: 1842
+  couverture: 0.78
+non_regression:
+  - {suite: parcours-reservation, resultat: ok}
+  - {suite: parcours-paiement, resultat: ok}
+  - {suite: facturation-mensuelle, resultat: ok}
+  - {suite: archivage-legal, resultat: echec, detail: "2 cas sur 40 : purge d'un client avec litige en cours"}
+anomalies_ouvertes:
+  bloquantes: 0
+  mineures: 7
+plan_monitoring:
+  - {epique: EP-103, indicateurs: ["taux d'erreur des délégations", "latence p95"], seuil_retour_arriere: "erreurs > 2 %"}
+  - {epique: EP-402, indicateurs: ["taux d'échec des prélèvements"], seuil_retour_arriere: "échecs > 5 %"}
+  - {epique: EP-202, indicateurs: ["temps de chargement des fiches"], seuil_retour_arriere: "p95 > 1,5 s"}
+  # EP-602 : pas encore de plan de monitoring (manque volontaire du simulacre)
+retour_arriere: "Désactivation des feature flags ; EP-202 sans flag : redéploiement de la version précédente."

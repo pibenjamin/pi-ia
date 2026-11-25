@@ -1,0 +1,66 @@
+name: 3b. Décision du PM
+# Le coordinateur lance ce workflow avec le plan qu'il conseille ; le PM approuve (ou
+# refuse) via l'environnement GitHub « decision-pm », configuré avec le PM comme
+# relecteur obligatoire. Rien n'est enregistré sans cette approbation.
+on:
+  workflow_dispatch:
+    inputs:
+      signal:
+        description: Identifiant du signal (ex. DEP-EP-303-EQ-D)
+        required: true
+      plan:
+        description: Plan conseillé
+        type: choice
+        options: [A. Attendre, B. Réordonner, C. Découpler, Autre]
+      justification:
+        description: Justification du conseil (une phrase)
+        required: true
+permissions:
+  contents: write
+  issues: write
+  actions: read
+jobs:
+  arbitrage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: decision-pm
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SIGNAL: ${{ inputs.signal }}
+      PLAN: ${{ inputs.plan }}
+      JUSTIF: ${{ inputs.justification }}
+      CONSEIL: ${{ github.actor }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparer
+
+      - id: approbation
+        name: Retrouver qui a approuvé
+        run: |
+          echo "$SIGNAL" | grep -Eq '^DEP-EP-[0-9]{3}-EQ-[A-Z]$' || { echo "Signal invalide" >&2; exit 1; }
+          qui=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/approvals" --jq '.[0].user.login // empty' || true)
+          echo "par=${qui:-inconnu}" >> "$GITHUB_OUTPUT"
+
+      - id: journal
+        env:
+          APPROUVE: ${{ steps.approbation.outputs.par }}
+          EXIGER: ${{ vars.EXIGER_ROLES == 'true' && 'PM' || '' }}
+        run: |
+          python scripts/journal.py decision --signal "$SIGNAL" --plan "$PLAN" \
+            --justification "$JUSTIF" --conseil-par "$CONSEIL" --approuve-par "$APPROUVE" \
+            --exiger-role "$EXIGER"
+
+      - uses: ./.github/actions/commit
+        with:
+          chemins: decisions/journal.csv
+          message: "Décision ${{ inputs.signal }} : ${{ inputs.plan }}, approuvée par ${{ steps.journal.outputs.role }} (@${{ steps.approbation.outputs.par }}), conseil @${{ github.actor }}"
+
+      - name: Commenter le ticket du signal
+        env:
+          ROLE: ${{ steps.journal.outputs.role }}
+        run: |
+          num=$(gh issue list --label signal-dependance --state all --search "$SIGNAL in:title" --json number --jq '.[0].number // empty')
+          [ -z "$num" ] && exit 0
+          gh label create decision:prise --color 0e8a16 --force >/dev/null
+          gh issue edit "$num" --add-label decision:prise
+          gh issue close "$num" --reason completed --comment "Décision du PM ($ROLE) : **$PLAN**. Justification du conseil : $JUSTIF. Enregistrée dans decisions/journal.csv."

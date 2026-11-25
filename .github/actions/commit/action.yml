@@ -1,0 +1,35 @@
+name: Commit des sorties
+description: >
+  Commite les chemins donnés et pousse sur la branche courante, avec reprise en cas de
+  conflit. Rappel : un commit fait avec le GITHUB_TOKEN ne déclenche pas d'autre workflow.
+inputs:
+  chemins:
+    required: true
+  message:
+    required: true
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        CHEMINS: ${{ inputs.chemins }}
+        MESSAGE: ${{ inputs.message }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        # shellcheck disable=SC2086
+        git add -- $CHEMINS
+        if git diff --cached --quiet; then
+          echo "Rien à commiter."
+          exit 0
+        fi
+        git commit -m "$MESSAGE"
+        branche="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+        for i in 1 2 3 4; do
+          if git pull --rebase --autostash origin "$branche" && git push origin "HEAD:$branche"; then
+            exit 0
+          fi
+          sleep $((i * 5))
+        done
+        echo "Échec du push après 4 tentatives." >&2
+        exit 1

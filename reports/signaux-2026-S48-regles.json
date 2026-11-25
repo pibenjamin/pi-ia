@@ -1,0 +1,323 @@
+{
+  "semaine": "2026-S48",
+  "trimestre": "2027-T1",
+  "source": "regles",
+  "signaux": [
+    {
+      "id": "DEP-EP-201-EQ-C",
+      "epique": "EP-201",
+      "titre_epique": "Tarification dynamique selon la disponibilité",
+      "equipe_source": "EQ-B",
+      "equipe_cible": "EQ-C",
+      "domaines": [
+        "DOM-06",
+        "DOM-05"
+      ],
+      "types": [
+        "connaissance",
+        "sequence-coordination",
+        "capacite-charge"
+      ],
+      "score": 8,
+      "confiance": "haute",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché à 100 %",
+        "cite une feature de l'équipe cible non livrée",
+        "la feature citée est prévue après le trimestre de l'épique, ou non planifiée",
+        "lien entre ces domaines déjà confirmé ou appris"
+      ],
+      "preuves": [
+        "FEAT-061 (Flux de disponibilité temps réel, planifiee 2027-T2)"
+      ],
+      "doute": ""
+    },
+    {
+      "id": "DEP-EP-303-EQ-D",
+      "epique": "EP-303",
+      "titre_epique": "Gestion des retours anticipés",
+      "equipe_source": "EQ-C",
+      "equipe_cible": "EQ-D",
+      "domaines": [
+        "DOM-08"
+      ],
+      "types": [
+        "connaissance",
+        "sequence-coordination",
+        "capacite-charge"
+      ],
+      "score": 6,
+      "confiance": "haute",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché entre le seuil et 99 %",
+        "cite une feature de l'équipe cible non livrée",
+        "la feature citée est prévue après le trimestre de l'épique, ou non planifiée"
+      ],
+      "preuves": [
+        "FEAT-081 (Avoirs partiels, planifiee 2027-T2)"
+      ],
+      "doute": ""
+    },
+    {
+      "id": "DEP-EP-601-EQ-C",
+      "epique": "EP-601",
+      "titre_epique": "Tableau de bord de pilotage des locations",
+      "equipe_source": "EQ-F",
+      "equipe_cible": "EQ-C",
+      "domaines": [
+        "DOM-05",
+        "DOM-06"
+      ],
+      "types": [
+        "connaissance",
+        "sequence-coordination",
+        "capacite-charge"
+      ],
+      "score": 6,
+      "confiance": "haute",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché entre le seuil et 99 %",
+        "cite une épique de l'équipe cible",
+        "lien entre ces domaines déjà confirmé ou appris"
+      ],
+      "preuves": [
+        "EP-302 (Inventaire multi-sites, 2027-T1)"
+      ],
+      "doute": ""
+    },
+    {
+      "id": "DEP-EP-102-EQ-F",
+      "epique": "EP-102",
+      "titre_epique": "Suppression de compte à la demande du client",
+      "equipe_source": "EQ-A",
+      "equipe_cible": "EQ-F",
+      "domaines": [
+        "DOM-12",
+        "DOM-11"
+      ],
+      "types": [
+        "connaissance",
+        "sequence-coordination"
+      ],
+      "score": 5,
+      "confiance": "haute",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "domaine coché entre le seuil et 99 %",
+        "cite une feature de l'équipe cible non livrée",
+        "lien entre ces domaines déjà confirmé ou appris"
+      ],
+      "preuves": [
+        "FEAT-121 (Purge sélective des archives, planifiee 2027-T1)"
+      ],
+      "doute": ""
+    },
+    {
+      "id": "DEP-EP-301-EQ-D",
+      "epique": "EP-301",
+      "titre_epique": "Réservation récurrente",
+      "equipe_source": "EQ-C",
+      "equipe_cible": "EQ-D",
+      "domaines": [
+        "DOM-07"
+      ],
+      "types": [
+        "sequence-coordination",
+        "capacite-charge"
+      ],
+      "score": 5,
+      "confiance": "haute",
+      "criteres": [
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché entre le seuil et 99 %",
+        "cite une feature de l'équipe cible non livrée",
+        "lien entre ces domaines déjà confirmé ou appris"
+      ],
+      "preuves": [
+        "FEAT-071 (Prélèvement récurrent, planifiee 2027-T1)"
+      ],
+      "doute": ""
+    },
+    {
+      "id": "DEP-EP-203-EQ-D",
+      "epique": "EP-203",
+      "titre_epique": "Codes promotionnels",
+      "equipe_source": "EQ-B",
+      "equipe_cible": "EQ-D",
+      "domaines": [
+        "DOM-07",
+        "DOM-08"
+      ],
+      "types": [
+        "connaissance",
+        "capacite-charge"
+      ],
+      "score": 4,
+      "confiance": "moyenne",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché entre le seuil et 99 %",
+        "lien entre ces domaines déjà confirmé ou appris"
+      ],
+      "preuves": [],
+      "doute": ""
+    },
+    {
+      "id": "DEP-EP-104-EQ-E",
+      "epique": "EP-104",
+      "titre_epique": "Gestion des consentements de communication",
+      "equipe_source": "EQ-A",
+      "equipe_cible": "EQ-E",
+      "domaines": [
+        "DOM-09"
+      ],
+      "types": [
+        "sequence-coordination",
+        "capacite-charge"
+      ],
+      "score": 2,
+      "confiance": "basse",
+      "criteres": [
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché entre le seuil et 99 %"
+      ],
+      "preuves": [],
+      "doute": "Aucune preuve dans le texte : signal fondé sur le seul cochage."
+    },
+    {
+      "id": "DEP-EP-401-EQ-F",
+      "epique": "EP-401",
+      "titre_epique": "Paiement en plusieurs fois",
+      "equipe_source": "EQ-D",
+      "equipe_cible": "EQ-F",
+      "domaines": [
+        "DOM-12"
+      ],
+      "types": [
+        "connaissance"
+      ],
+      "score": 2,
+      "confiance": "basse",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "domaine coché entre le seuil et 99 %"
+      ],
+      "preuves": [],
+      "doute": ""
+    },
+    {
+      "id": "DEP-EP-501-EQ-A",
+      "epique": "EP-501",
+      "titre_epique": "Centre de préférences de contact",
+      "equipe_source": "EQ-E",
+      "equipe_cible": "EQ-A",
+      "domaines": [
+        "DOM-01"
+      ],
+      "types": [
+        "sequence-coordination"
+      ],
+      "score": 2,
+      "confiance": "basse",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "lien entre ces domaines déjà confirmé ou appris"
+      ],
+      "preuves": [],
+      "doute": "Aucune preuve dans le texte : signal fondé sur le seul cochage."
+    },
+    {
+      "id": "DEP-EP-301-EQ-E",
+      "epique": "EP-301",
+      "titre_epique": "Réservation récurrente",
+      "equipe_source": "EQ-C",
+      "equipe_cible": "EQ-E",
+      "domaines": [
+        "DOM-09"
+      ],
+      "types": [
+        "connaissance",
+        "capacite-charge"
+      ],
+      "score": 1,
+      "confiance": "basse",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché entre le seuil et 99 %",
+        "ne cite que des features déjà livrées"
+      ],
+      "preuves": [
+        "FEAT-092 (Modèles de notification paramétrables, livree 2026-T3)"
+      ],
+      "doute": "Les features citées existent déjà : le besoin restant est peut-être nul."
+    },
+    {
+      "id": "DEP-EP-302-EQ-F",
+      "epique": "EP-302",
+      "titre_epique": "Inventaire multi-sites",
+      "equipe_source": "EQ-C",
+      "equipe_cible": "EQ-F",
+      "domaines": [
+        "DOM-11"
+      ],
+      "types": [
+        "connaissance"
+      ],
+      "score": 1,
+      "confiance": "basse",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "domaine coché entre le seuil et 99 %",
+        "ne cite que des features déjà livrées",
+        "lien entre ces domaines déjà confirmé ou appris"
+      ],
+      "preuves": [
+        "FEAT-111 (Export libre-service des données de stock, livree 2026-T4)"
+      ],
+      "doute": "Les features citées existent déjà : le besoin restant est peut-être nul."
+    },
+    {
+      "id": "DEP-EP-502-EQ-C",
+      "epique": "EP-502",
+      "titre_epique": "Assistant de support en libre-service",
+      "equipe_source": "EQ-E",
+      "equipe_cible": "EQ-C",
+      "domaines": [
+        "DOM-05"
+      ],
+      "types": [
+        "connaissance",
+        "capacite-charge"
+      ],
+      "score": 1,
+      "confiance": "basse",
+      "criteres": [
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles",
+        "domaine coché entre le seuil et 99 %",
+        "ne cite que des features déjà livrées"
+      ],
+      "preuves": [
+        "FEAT-051 (API de lecture des réservations, livree 2026-T2)"
+      ],
+      "doute": "Les features citées existent déjà : le besoin restant est peut-être nul."
+    }
+  ],
+  "ecartes": [
+    {
+      "epique": "EP-502",
+      "equipe_cible": "EQ-A",
+      "domaines": [
+        "DOM-01"
+      ],
+      "motif": "expertise présente et features citées déjà livrées : FEAT-011"
+    }
+  ]
+}

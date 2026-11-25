@@ -1,0 +1,4 @@
+# Exemple de fichier de correspondances. Le vrai fichier vit dans entrees/ (non versionné).
+equipes:
+  "Équipe Rouge": EQ-A
+  "Équipe Bleue": EQ-B

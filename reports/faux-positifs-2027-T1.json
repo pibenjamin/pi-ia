@@ -1,0 +1,10 @@
+{
+  "trimestre": "2027-T1",
+  "signaux_valides": 0,
+  "confirmes": 0,
+  "ecartes": 0,
+  "taux_faux_positifs": null,
+  "par_confiance": {},
+  "dependances_ratees": [],
+  "propositions_carte": []
+}

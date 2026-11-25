@@ -1,0 +1,18 @@
+name: Contrôles
+# Tests des scripts et contrôle d'anonymisation à chaque push et pull request.
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  controles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparer
+      - name: Contrôle d'anonymisation
+        run: python scripts/anonymiser.py verifier
+      - name: Tests
+        run: python -m unittest discover -s tests -v

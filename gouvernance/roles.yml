@@ -1,0 +1,13 @@
+# Rôles de décision. Chaque décision du simulacre est rattachée à un rôle, jamais à une personne.
+# Pour la démonstration, renseigner le compte GitHub qui joue chaque rôle.
+# Un même compte peut tenir plusieurs rôles le temps de la démo.
+roles:
+  PM: {github: a-renseigner, decide: "arbitrage des plans (environnement decision-pm)"}
+  COORDINATEUR: {github: a-renseigner, decide: "conseil au PM, déclenchement des décisions, dépendances ratées"}
+  TL-EQ-A: {github: a-renseigner, decide: "validation des signaux qui concernent EQ-A"}
+  TL-EQ-B: {github: a-renseigner, decide: "validation des signaux qui concernent EQ-B"}
+  TL-EQ-C: {github: a-renseigner, decide: "validation des signaux qui concernent EQ-C"}
+  TL-EQ-D: {github: a-renseigner, decide: "validation des signaux qui concernent EQ-D"}
+  TL-EQ-E: {github: a-renseigner, decide: "validation des signaux qui concernent EQ-E"}
+  TL-EQ-F: {github: a-renseigner, decide: "validation des signaux qui concernent EQ-F"}
+  RESPONSABLE-RELEASE: {github: a-renseigner, decide: "go/no-go (environnement go-no-go)"}

@@ -1,0 +1,14 @@
+# Catalogue fictif des features (capacités) exposées par les composants.
+# statut : livree (avec trimestre), planifiee (trimestre cible), non_planifiee.
+# Sert à répondre à la question : "la feature dont on dépend est-elle déjà implémentée ?"
+features:
+  - {id: FEAT-011, composant: CMP-01, libelle: "API de lecture du profil client", statut: livree, trimestre: 2026-T1}
+  - {id: FEAT-021, composant: CMP-02, libelle: "Jetons de session longue durée", statut: livree, trimestre: 2026-T2}
+  - {id: FEAT-051, composant: CMP-05, libelle: "API de lecture des réservations", statut: livree, trimestre: 2026-T2}
+  - {id: FEAT-061, composant: CMP-06, libelle: "Flux de disponibilité temps réel", statut: planifiee, trimestre: 2027-T2}
+  - {id: FEAT-071, composant: CMP-07, libelle: "Prélèvement récurrent", statut: planifiee, trimestre: 2027-T1, epique: EP-402}
+  - {id: FEAT-081, composant: CMP-08, libelle: "Avoirs partiels", statut: planifiee, trimestre: 2027-T2, epique: EP-403}
+  - {id: FEAT-091, composant: CMP-09, libelle: "Envoi de codes à usage unique", statut: livree, trimestre: 2026-T3}
+  - {id: FEAT-092, composant: CMP-09, libelle: "Modèles de notification paramétrables", statut: livree, trimestre: 2026-T3}
+  - {id: FEAT-111, composant: CMP-11, libelle: "Export libre-service des données de stock", statut: livree, trimestre: 2026-T4}
+  - {id: FEAT-121, composant: CMP-12, libelle: "Purge sélective des archives", statut: planifiee, trimestre: 2027-T1, epique: EP-602}

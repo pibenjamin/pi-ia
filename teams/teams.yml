@@ -1,0 +1,27 @@
+# Équipes fictives, identifiées par un code. Aucun nom de personne.
+# expertise : niveau de connaissance par domaine (forte / moyenne). Domaine absent = pas d'expertise.
+equipes:
+  - id: EQ-A
+    composants: [CMP-01, CMP-02]
+    tech_lead: TL-EQ-A
+    expertise: {DOM-01: forte, DOM-02: forte, DOM-09: moyenne}
+  - id: EQ-B
+    composants: [CMP-03, CMP-04]
+    tech_lead: TL-EQ-B
+    expertise: {DOM-03: forte, DOM-04: forte, DOM-06: moyenne, DOM-07: moyenne}
+  - id: EQ-C
+    composants: [CMP-05, CMP-06]
+    tech_lead: TL-EQ-C
+    expertise: {DOM-05: forte, DOM-06: forte, DOM-07: moyenne}
+  - id: EQ-D
+    composants: [CMP-07, CMP-08]
+    tech_lead: TL-EQ-D
+    expertise: {DOM-07: forte, DOM-08: forte}
+  - id: EQ-E
+    composants: [CMP-09, CMP-10]
+    tech_lead: TL-EQ-E
+    expertise: {DOM-09: forte, DOM-10: forte, DOM-01: moyenne}
+  - id: EQ-F
+    composants: [CMP-11, CMP-12]
+    tech_lead: TL-EQ-F
+    expertise: {DOM-11: forte, DOM-12: forte, DOM-06: moyenne}

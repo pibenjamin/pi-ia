@@ -1,0 +1,5 @@
+# Exports bruts, correspondances et liste noire : jamais dans le dépôt.
+entrees/
+__pycache__/
+*.pyc
+.venv/

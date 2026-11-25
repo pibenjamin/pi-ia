@@ -1,0 +1,135 @@
+{
+  "source": "regles",
+  "semaine": "2026-S48",
+  "nb_signaux": 12,
+  "nb_faux_positifs": 3,
+  "nb_dependances": 9,
+  "nb_trouvees": 8,
+  "manquees": [
+    "GT-08"
+  ],
+  "signaux": [
+    {
+      "id": "DEP-EP-201-EQ-C",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-02"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-303-EQ-D",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-05"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-601-EQ-C",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-07"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-102-EQ-F",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-01"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-301-EQ-D",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-04"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-203-EQ-D",
+      "confiance": "moyenne",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-03"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-104-EQ-E",
+      "confiance": "basse",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-09"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-401-EQ-F",
+      "confiance": "basse",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-06"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-501-EQ-A",
+      "confiance": "basse",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-09"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-301-EQ-E",
+      "confiance": "basse",
+      "verdict": "faux positif",
+      "correspond_a": [],
+      "piege": [
+        "PG-03"
+      ]
+    },
+    {
+      "id": "DEP-EP-302-EQ-F",
+      "confiance": "basse",
+      "verdict": "faux positif",
+      "correspond_a": [],
+      "piege": [
+        "PG-04"
+      ]
+    },
+    {
+      "id": "DEP-EP-502-EQ-C",
+      "confiance": "basse",
+      "verdict": "faux positif",
+      "correspond_a": [],
+      "piege": [
+        "PG-05"
+      ]
+    }
+  ],
+  "calibration": {
+    "haute": {
+      "signaux": 5,
+      "faux_positifs": 0
+    },
+    "moyenne": {
+      "signaux": 1,
+      "faux_positifs": 0
+    },
+    "basse": {
+      "signaux": 6,
+      "faux_positifs": 3
+    }
+  }
+}

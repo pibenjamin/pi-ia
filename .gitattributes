@@ -1,0 +1,5 @@
+# Journaux de décisions : une ligne ajoutée par décision. Deux workflows simultanés
+# ajoutent chacun une ligne ; l'union évite le conflit au rebase.
+validation/journal.csv merge=union
+decisions/journal.csv merge=union
+releases/journal.csv merge=union

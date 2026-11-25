@@ -1,0 +1,44 @@
+# VÉRITÉ TERRAIN DU SIMULACRE — ne pas montrer aux agents.
+# Les dépendances et pièges ci-dessous ont été injectés volontairement dans les données
+# fictives. Les workflows suppriment ce dossier de l'espace de travail avant d'appeler
+# Claude ; seul scripts/evaluer.py le lit, après coup, pour rendre la mesure traçable.
+#
+# Appariement : un signal (epique, equipe_cible) correspond à une dépendance si l'épique
+# et l'équipe cible sont les mêmes (ou si le signal relie les deux épiques d'une paire).
+# Si la dépendance porte "exige_domaine", le signal doit aussi citer ce domaine : un signal
+# vers la bonne équipe pour une mauvaise raison ne compte pas comme trouvé.
+dependances:
+  - {id: GT-01, epique: EP-102, equipe_cible: EQ-F, types: [sequence-coordination, connaissance], domaine: DOM-12,
+     note: "Purge sélective FEAT-121 (EP-602) à livrer avant ; règles de conservation."}
+  - {id: GT-02, epique: EP-201, equipe_cible: EQ-C, types: [capacite-charge, sequence-coordination], domaine: DOM-06,
+     note: "Flux de disponibilité FEAT-061 prévu en 2027-T2 ; EQ-C en surcharge."}
+  - {id: GT-03, epique: EP-203, equipe_cible: EQ-D, types: [connaissance], domaine: DOM-08,
+     note: "Ligne de remise sur facture et report au remboursement : savoir de EQ-D."}
+  - {id: GT-04, epique: EP-301, equipe_cible: EQ-D, types: [sequence-coordination], domaine: DOM-07,
+     note: "Prélèvement récurrent FEAT-071 (EP-402) dans le même trimestre : ordre à tenir."}
+  - {id: GT-05, epique: EP-303, equipe_cible: EQ-D, types: [sequence-coordination], domaine: DOM-08,
+     note: "Avoirs partiels FEAT-081 (EP-403) prévus en 2027-T2 : bloquant pour 2027-T1."}
+  - {id: GT-06, epique: EP-401, equipe_cible: EQ-F, types: [connaissance], domaine: DOM-12,
+     note: "Durées légales de conservation : savoir de EQ-F."}
+  - {id: GT-07, epique: EP-601, equipe_cible: EQ-C, types: [sequence-coordination, capacite-charge], domaine: DOM-06,
+     note: "Modèle multi-sites livré par EP-302 ; EQ-C en surcharge."}
+  - {id: GT-08, epique: EP-302, equipe_cible: EQ-F, types: [connaissance, sequence-coordination], domaine: DOM-12,
+     exige_domaine: DOM-12, piege: "domaine non coché",
+     note: "Traçabilité réglementaire des mouvements : DOM-12 n'est pas coché. Attendu : manqué par les règles."}
+  - {id: GT-09, epique: EP-104, equipe_cible: EQ-E, paire: [EP-104, EP-501], types: [sequence-coordination],
+     note: "Épique commune / doublon partiel : consentements (EP-104) et préférences (EP-501)."}
+
+# Domaines cochés qui NE sont PAS des dépendances (sources attendues de faux positifs).
+pieges_faux_positifs:
+  - {id: PG-01, epique: EP-101, equipe_cible: EQ-E, motif: "FEAT-091 déjà livrée (et certitude 10 %)."}
+  - {id: PG-02, epique: EP-202, equipe_cible: EQ-F, motif: "Certitude 10 %, aucun besoin réel."}
+  - {id: PG-03, epique: EP-301, equipe_cible: EQ-E, motif: "FEAT-092 déjà livrée : simple usage."}
+  - {id: PG-04, epique: EP-302, equipe_cible: EQ-F, domaine: DOM-11, motif: "FEAT-111 déjà livrée (le vrai besoin envers EQ-F est DOM-12, voir GT-08)."}
+  - {id: PG-05, epique: EP-502, equipe_cible: EQ-C, motif: "FEAT-051 déjà livrée, lecture seule."}
+  - {id: PG-06, epique: EP-502, equipe_cible: EQ-A, motif: "FEAT-011 déjà livrée, lecture seule."}
+
+# Faiblesses de backlog injectées (agent backlogs).
+faiblesses:
+  - {epique: EP-503, motifs: [trop-grosse, manque-informations]}
+  - {epique: EP-603, motifs: [ownership-flou]}
+  - {epiques: [EP-104, EP-501], motifs: [doublon-potentiel]}

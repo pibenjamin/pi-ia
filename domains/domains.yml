@@ -1,0 +1,21 @@
+# Cartographie fictive : 12 domaines issus d'un atelier Event Storming (simulé).
+# Univers fictif : une plateforme de location de matériel. Aucun lien avec un client réel.
+domaines:
+  - {id: DOM-01, libelle: Comptes clients,          equipe_referente: EQ-A, composants: [CMP-01]}
+  - {id: DOM-02, libelle: Identité et accès,        equipe_referente: EQ-A, composants: [CMP-02]}
+  - {id: DOM-03, libelle: Catalogue,                equipe_referente: EQ-B, composants: [CMP-03]}
+  - {id: DOM-04, libelle: Tarification,             equipe_referente: EQ-B, composants: [CMP-04]}
+  - {id: DOM-05, libelle: Réservation,              equipe_referente: EQ-C, composants: [CMP-05]}
+  - {id: DOM-06, libelle: Inventaire,               equipe_referente: EQ-C, composants: [CMP-06]}
+  - {id: DOM-07, libelle: Paiement,                 equipe_referente: EQ-D, composants: [CMP-07]}
+  - {id: DOM-08, libelle: Facturation,              equipe_referente: EQ-D, composants: [CMP-08]}
+  - {id: DOM-09, libelle: Notifications,            equipe_referente: EQ-E, composants: [CMP-09]}
+  - {id: DOM-10, libelle: Support,                  equipe_referente: EQ-E, composants: [CMP-10]}
+  - {id: DOM-11, libelle: Données et reporting,     equipe_referente: EQ-F, composants: [CMP-11]}
+  - {id: DOM-12, libelle: Conformité et archivage,  equipe_referente: EQ-F, composants: [CMP-12]}
+
+# Liens entre domaines appris au fil des trimestres (la carte s'enrichit quand une
+# dépendance a été ratée puis constatée). Ajout manuel, après revue du coordinateur.
+relations_apprises:
+  - {de: DOM-01, vers: DOM-12, motif: "Données personnelles : règles de conservation", appris: 2026-T3}
+  - {de: DOM-07, vers: DOM-08, motif: "Tout moyen de paiement a un impact facture", appris: 2026-T2}

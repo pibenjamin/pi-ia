@@ -1,0 +1,49 @@
+name: 4b. Flux
+# Déclenché par événement, pas en continu : nouvel export de tickets (push sur flux/ ou
+# repository_dispatch depuis l'outil de suivi), fin de sprint (manuel), orchestration.
+# Les indicateurs sont calculés par script ; Claude n'est appelé que s'il y a une dérive
+# (WIP au-dessus de la limite, ticket bloqué ou sans mouvement depuis N jours) ou en fin de sprint.
+on:
+  push:
+    branches: [main]
+    paths: [flux/**]
+  repository_dispatch:
+    types: [export-flux]
+  workflow_dispatch:
+    inputs:
+      fin_de_sprint: {type: boolean, default: true}
+      ia: {type: boolean, default: true}
+  workflow_call:
+    inputs:
+      ia: {type: boolean, default: true}
+permissions:
+  contents: write
+jobs:
+  flux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparer
+      - id: calcul
+        run: |
+          python scripts/capacite.py > /dev/null
+          python scripts/flux.py | tee -a "$GITHUB_STEP_SUMMARY"
+      - id: agent
+        if: steps.calcul.outputs.alerte == 'true' || inputs.fin_de_sprint == true
+        uses: ./.github/actions/agent-claude
+        with:
+          actif: ${{ vars.AGENTS_IA_ACTIFS != 'false' && inputs.ia != false }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          modele: ${{ vars.CLAUDE_MODELE || 'claude-sonnet-5-5' }}
+          max_tours: "8"
+          perimetre: reports/
+          prompt: |
+            SIMULACRE (données fictives). Applique skills/flux/SKILL.md à
+            reports/flux-${{ steps.calcul.outputs.semaine }}.json. Écris uniquement
+            reports/flux-${{ steps.calcul.outputs.semaine }}-commentaire.md.
+      - uses: ./.github/actions/commit
+        with:
+          chemins: reports/
+          message: "Flux ${{ steps.calcul.outputs.semaine }} (alerte : ${{ steps.calcul.outputs.alerte }})"

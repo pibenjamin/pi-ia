@@ -1,0 +1,6 @@
+trimestre,domaine_source,domaine_cible,type,origine
+2026-T2,DOM-07,DOM-08,sequence-coordination,signal confirme
+2026-T3,DOM-01,DOM-12,connaissance,dependance ratee puis constatee
+2026-T3,DOM-04,DOM-06,capacite-charge,signal confirme
+2026-T4,DOM-05,DOM-07,sequence-coordination,signal confirme
+2026-T4,DOM-11,DOM-06,sequence-coordination,signal confirme

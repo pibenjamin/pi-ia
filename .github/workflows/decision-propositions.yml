@@ -1,0 +1,72 @@
+name: 3a. Plans proposés au PM
+# Quand un tech lead confirme une dépendance, 2 ou 3 plans sont proposés au PM :
+# d'abord par règles (mode dégradé), puis enrichis par Claude s'il est actif.
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      signal:
+        description: Identifiant du signal (ex. DEP-EP-303-EQ-D)
+        required: true
+      ia:
+        type: boolean
+        default: true
+permissions:
+  contents: write
+  issues: write
+jobs:
+  proposer:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.label.name == 'validation:confirmee' &&
+       contains(github.event.issue.labels.*.name, 'signal-dependance'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparer
+
+      - id: sig
+        env:
+          TITRE: ${{ github.event.issue.title }}
+          SAISI: ${{ inputs.signal }}
+        run: |
+          s="${SAISI:-$(echo "$TITRE" | sed -nE 's/^\[(DEP-EP-[0-9]{3}-EQ-[A-Z])\].*/\1/p')}"
+          echo "$s" | grep -Eq '^DEP-EP-[0-9]{3}-EQ-[A-Z]$' || { echo "Signal invalide : $s" >&2; exit 1; }
+          echo "id=$s" >> "$GITHUB_OUTPUT"
+
+      - name: Plans par règles
+        run: python scripts/plans.py "${{ steps.sig.outputs.id }}"
+
+      - id: agent
+        uses: ./.github/actions/agent-claude
+        with:
+          actif: ${{ vars.AGENTS_IA_ACTIFS != 'false' && inputs.ia != false }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          modele: ${{ vars.CLAUDE_MODELE || 'claude-sonnet-5-5' }}
+          perimetre: decisions/propositions/
+          prompt: |
+            SIMULACRE (données fictives). Applique skills/propositions-plans/SKILL.md au signal
+            ${{ steps.sig.outputs.id }}, confirmé par un tech lead. Une version par règles existe
+            déjà dans decisions/propositions/${{ steps.sig.outputs.id }}.md : réécris ce fichier
+            (et lui seul) en l'enrichissant. 2 ou 3 plans, chacun avec son doute. Le PM décide.
+
+      - uses: ./.github/actions/commit
+        with:
+          chemins: decisions/propositions/
+          message: "Plans proposés pour ${{ steps.sig.outputs.id }} (agent IA : ${{ steps.agent.outputs.execute }})"
+
+      - name: Lier les plans au ticket
+        if: github.event_name == 'issues'
+        run: |
+          gh issue comment "${{ github.event.issue.number }}" --body-file - <<EOF2
+          Plans proposés au PM : [decisions/propositions/${{ steps.sig.outputs.id }}.md](../blob/${GITHUB_REF_NAME}/decisions/propositions/${{ steps.sig.outputs.id }}.md)
+          (agent IA utilisé : ${{ steps.agent.outputs.execute }}).
+
+          Coordinateur : lancer le workflow « 3b. Décision du PM » avec le plan conseillé.
+          Le PM approuve ou refuse dans l'environnement \`decision-pm\`.
+          EOF2

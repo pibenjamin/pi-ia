@@ -1,0 +1,77 @@
+{
+  "semaine": "2026-S48",
+  "date_reference": "2026-11-25",
+  "equipes": {
+    "EQ-A": {
+      "wip": 4,
+      "limite_wip": 6,
+      "cycle_time_median_jours": 6,
+      "cycle_time_p85_jours": 7.0,
+      "tickets_termines": 9,
+      "stagnants": []
+    },
+    "EQ-B": {
+      "wip": 5,
+      "limite_wip": 6,
+      "cycle_time_median_jours": 6.0,
+      "cycle_time_p85_jours": 8.3,
+      "tickets_termines": 10,
+      "stagnants": []
+    },
+    "EQ-C": {
+      "wip": 11,
+      "limite_wip": 6,
+      "cycle_time_median_jours": 11.5,
+      "cycle_time_p85_jours": 13.0,
+      "tickets_termines": 10,
+      "stagnants": [
+        {
+          "ticket": "TK-106",
+          "statut": "en-cours",
+          "jours_sans_mouvement": 16
+        },
+        {
+          "ticket": "TK-107",
+          "statut": "bloque",
+          "jours_sans_mouvement": 12
+        }
+      ]
+    },
+    "EQ-D": {
+      "wip": 5,
+      "limite_wip": 6,
+      "cycle_time_median_jours": 8,
+      "cycle_time_p85_jours": 9.5,
+      "tickets_termines": 11,
+      "stagnants": []
+    },
+    "EQ-E": {
+      "wip": 5,
+      "limite_wip": 6,
+      "cycle_time_median_jours": 7,
+      "cycle_time_p85_jours": 9.6,
+      "tickets_termines": 9,
+      "stagnants": [
+        {
+          "ticket": "TK-108",
+          "statut": "bloque",
+          "jours_sans_mouvement": 14
+        }
+      ]
+    },
+    "EQ-F": {
+      "wip": 3,
+      "limite_wip": 6,
+      "cycle_time_median_jours": 5.0,
+      "cycle_time_p85_jours": 6.0,
+      "tickets_termines": 8,
+      "stagnants": []
+    }
+  },
+  "alertes": [
+    "EQ-C : WIP 11 au-dessus de la limite 6",
+    "EQ-C : TK-106 (en-cours) sans mouvement depuis 16 j",
+    "EQ-C : TK-107 (bloque) sans mouvement depuis 12 j",
+    "EQ-E : TK-108 (bloque) sans mouvement depuis 14 j"
+  ]
+}

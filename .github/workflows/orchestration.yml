@@ -1,0 +1,61 @@
+name: 0. Orchestration hebdomadaire
+# Enchaîne les étapes et regroupe les sorties dans reports/SYNTHESE.md.
+# Rappels : un workflow planifié ne tourne que depuis la branche par défaut ; sur un
+# dépôt public, le cron est désactivé après 60 jours sans activité.
+on:
+  schedule:
+    - cron: "17 5 * * 1"   # lundi 05:17 UTC
+  workflow_dispatch:
+    inputs:
+      ia:
+        description: Utiliser les agents IA (décocher pour le mode dégradé)
+        type: boolean
+        default: true
+      tickets:
+        description: Ouvrir les tickets de signaux
+        type: boolean
+        default: true
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: orchestration
+  cancel-in-progress: false
+jobs:
+  capacite:
+    uses: ./.github/workflows/capacite.yml
+    with:
+      ia: ${{ inputs.ia != false }}
+    secrets: inherit
+  dependances:
+    needs: capacite
+    uses: ./.github/workflows/dependances.yml
+    with:
+      ia: ${{ inputs.ia != false }}
+      tickets: ${{ inputs.tickets != false }}
+    secrets: inherit
+  flux:
+    needs: dependances
+    uses: ./.github/workflows/flux.yml
+    with:
+      ia: ${{ inputs.ia != false }}
+    secrets: inherit
+  synthese:
+    needs: [capacite, dependances, flux]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: ./.github/actions/preparer
+      - run: git pull --ff-only origin "${GITHUB_REF_NAME}"
+      - run: |
+          python scripts/faux_positifs.py > /dev/null
+          python scripts/synthese.py > /dev/null
+          cat reports/SYNTHESE.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: ./.github/actions/commit
+        with:
+          chemins: reports/
+          message: "Synthèse hebdomadaire (source des dépendances : ${{ needs.dependances.outputs.source }})"

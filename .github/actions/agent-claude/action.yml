@@ -1,0 +1,76 @@
+name: Agent Claude (périmètre restreint)
+description: >
+  Lance Claude en mode automatisation avec le minimum d'outils (lecture, écriture de fichiers,
+  pas de shell, pas d'API GitHub), masque la vérité terrain du simulacre, puis vérifie que
+  seuls les chemins autorisés ont été modifiés. Ne fait rien si l'IA est coupée ou si aucun
+  secret n'est configuré : le workflow continue alors avec les sorties des règles.
+inputs:
+  prompt:
+    description: Consigne pour l'agent.
+    required: true
+  perimetre:
+    description: Chemins que l'agent a le droit de modifier, séparés par des espaces.
+    required: true
+  actif:
+    description: "'false' pour couper l'IA (mode dégradé)."
+    default: "true"
+  anthropic_api_key:
+    default: ""
+  claude_code_oauth_token:
+    default: ""
+  modele:
+    default: claude-sonnet-5-5
+  max_tours:
+    default: "15"
+outputs:
+  execute:
+    description: "'true' si l'agent a tourné et terminé sans erreur."
+    value: ${{ steps.claude.outcome == 'success' }}
+runs:
+  using: composite
+  steps:
+    - id: etat
+      shell: bash
+      env:
+        ACTIF: ${{ inputs.actif }}
+        A_CLE: ${{ inputs.anthropic_api_key != '' || inputs.claude_code_oauth_token != '' }}
+      run: |
+        if [ "$ACTIF" = "false" ]; then
+          echo "IA coupée (AGENTS_IA_ACTIFS=false ou entrée ia=false) : mode dégradé." >> "$GITHUB_STEP_SUMMARY"
+          echo "lancer=false" >> "$GITHUB_OUTPUT"
+        elif [ "$A_CLE" != "true" ]; then
+          echo "Aucun secret ANTHROPIC_API_KEY ni CLAUDE_CODE_OAUTH_TOKEN : mode dégradé." >> "$GITHUB_STEP_SUMMARY"
+          echo "lancer=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "lancer=true" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Masquer la vérité terrain du simulacre
+      if: steps.etat.outputs.lancer == 'true'
+      shell: bash
+      run: rm -rf evaluation
+
+    - id: claude
+      if: steps.etat.outputs.lancer == 'true'
+      continue-on-error: true
+      uses: anthropics/claude-code-action@v1
+      with:
+        prompt: ${{ inputs.prompt }}
+        anthropic_api_key: ${{ inputs.anthropic_api_key }}
+        claude_code_oauth_token: ${{ inputs.claude_code_oauth_token }}
+        github_token: ${{ github.token }}
+        claude_args: >-
+          --model ${{ inputs.modele }}
+          --max-turns ${{ inputs.max_tours }}
+          --permission-mode default
+          --allowedTools Read,Glob,Grep,Write,Edit
+
+    - name: Restaurer la vérité terrain
+      if: always() && steps.etat.outputs.lancer == 'true'
+      shell: bash
+      run: git checkout -- evaluation
+
+    - name: Vérifier le périmètre d'écriture
+      if: always() && steps.etat.outputs.lancer == 'true'
+      shell: bash
+      run: scripts/verifier_perimetre.sh ${{ inputs.perimetre }}

@@ -1,0 +1,101 @@
+{
+  "trimestre": "2027-T1",
+  "equipes": {
+    "EQ-A": {
+      "etp_sprints_nominal": 36.0,
+      "etp_sprints_absences": 2.5,
+      "etp_sprints_presents_non_disponibles": 0.0,
+      "part_presents_non_disponibles": 0.0,
+      "capacite_brute_points": 268.0,
+      "taux_livraison_historique": 0.92,
+      "anomalies_ponderees_par_release": 2.0,
+      "facteur_qualite": 0.96,
+      "capacite_effective_points": 237.4,
+      "charge_points": 210,
+      "ratio_charge_capacite": 0.88,
+      "etat": "tension",
+      "alerte_non_disponible": false
+    },
+    "EQ-B": {
+      "etp_sprints_nominal": 42.0,
+      "etp_sprints_absences": 2.5,
+      "etp_sprints_presents_non_disponibles": 1.0,
+      "part_presents_non_disponibles": 0.02,
+      "capacite_brute_points": 308.0,
+      "taux_livraison_historique": 0.89,
+      "anomalies_ponderees_par_release": 4.0,
+      "facteur_qualite": 0.93,
+      "capacite_effective_points": 253.5,
+      "charge_points": 200,
+      "ratio_charge_capacite": 0.79,
+      "etat": "ok",
+      "alerte_non_disponible": false
+    },
+    "EQ-C": {
+      "etp_sprints_nominal": 36.0,
+      "etp_sprints_absences": 4.0,
+      "etp_sprints_presents_non_disponibles": 0.0,
+      "part_presents_non_disponibles": 0.0,
+      "capacite_brute_points": 256.0,
+      "taux_livraison_historique": 0.71,
+      "anomalies_ponderees_par_release": 10.0,
+      "facteur_qualite": 0.83,
+      "capacite_effective_points": 151.9,
+      "charge_points": 180,
+      "ratio_charge_capacite": 1.18,
+      "etat": "surcharge",
+      "alerte_non_disponible": false
+    },
+    "EQ-D": {
+      "etp_sprints_nominal": 42.0,
+      "etp_sprints_absences": 2.0,
+      "etp_sprints_presents_non_disponibles": 11.0,
+      "part_presents_non_disponibles": 0.26,
+      "capacite_brute_points": 232.0,
+      "taux_livraison_historique": 0.85,
+      "anomalies_ponderees_par_release": 4.0,
+      "facteur_qualite": 0.93,
+      "capacite_effective_points": 182.0,
+      "charge_points": 160,
+      "ratio_charge_capacite": 0.88,
+      "etat": "tension",
+      "alerte_non_disponible": true
+    },
+    "EQ-E": {
+      "etp_sprints_nominal": 30.0,
+      "etp_sprints_absences": 1.0,
+      "etp_sprints_presents_non_disponibles": 0.0,
+      "part_presents_non_disponibles": 0.0,
+      "capacite_brute_points": 232.0,
+      "taux_livraison_historique": 0.91,
+      "anomalies_ponderees_par_release": 1.67,
+      "facteur_qualite": 0.97,
+      "capacite_effective_points": 204.5,
+      "charge_points": 260,
+      "ratio_charge_capacite": 1.27,
+      "etat": "surcharge",
+      "alerte_non_disponible": false
+    },
+    "EQ-F": {
+      "etp_sprints_nominal": 30.0,
+      "etp_sprints_absences": 1.0,
+      "etp_sprints_presents_non_disponibles": 3.0,
+      "part_presents_non_disponibles": 0.1,
+      "capacite_brute_points": 208.0,
+      "taux_livraison_historique": 0.9,
+      "anomalies_ponderees_par_release": 1.33,
+      "facteur_qualite": 0.97,
+      "capacite_effective_points": 181.7,
+      "charge_points": 110,
+      "ratio_charge_capacite": 0.61,
+      "etat": "ok",
+      "alerte_non_disponible": false
+    }
+  },
+  "epiques_sans_equipe": [
+    {
+      "epique": "EP-603",
+      "taille_points": 50
+    }
+  ]
+}

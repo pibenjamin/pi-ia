@@ -1,0 +1,44 @@
+{
+  "semaine": "2026-S48",
+  "trimestre": "2027-T1",
+  "source": "regles",
+  "faiblesses": [
+    {
+      "epiques": [
+        "EP-503"
+      ],
+      "motif": "trop-grosse",
+      "detail": "160 pts pour une capacité effective de 204.5 pts (78%) : à découper"
+    },
+    {
+      "epiques": [
+        "EP-603"
+      ],
+      "motif": "ownership-flou",
+      "detail": "équipe « a-definir » inconnue de teams/teams.yml"
+    },
+    {
+      "epiques": [
+        "EP-503"
+      ],
+      "motif": "manque-informations",
+      "detail": "pas de critères d'acceptation, description de 9 mots"
+    },
+    {
+      "epiques": [
+        "EP-104",
+        "EP-501"
+      ],
+      "motif": "doublon-potentiel",
+      "detail": "profils de domaines similaires (0.81), équipes EQ-A et EQ-E : épique commune ou doublon ?"
+    },
+    {
+      "epiques": [
+        "EP-302",
+        "EP-601"
+      ],
+      "motif": "doublon-potentiel",
+      "detail": "profils de domaines similaires (0.83), équipes EQ-C et EQ-F : épique commune ou doublon ?"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+name: 5a. Dossier go/no-go
+# Déclenché à la main, ou quand un fichier releases/R-*.yml change (passage en
+# « candidate »). Produit les preuves par règles et un brouillon de dossier par Claude.
+on:
+  push:
+    branches: [main]
+    paths: ["releases/R-*.yml"]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Identifiant (ex. R-2027.1)
+        required: true
+      ia: {type: boolean, default: true}
+permissions:
+  contents: write
+jobs:
+  dossier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: ./.github/actions/preparer
+      - id: quelle
+        env:
+          SAISIE: ${{ inputs.release }}
+        run: |
+          if [ -n "$SAISIE" ]; then r="$SAISIE"; else
+            r=$(git diff --name-only HEAD~1 HEAD -- 'releases/R-*.yml' | head -1 | xargs -r basename | sed 's/\.yml$//')
+          fi
+          echo "$r" | grep -Eq '^R-[0-9]{4}\.[0-9]+$' || { echo "Release invalide : $r" >&2; exit 1; }
+          statut=$(python -c "import yaml; print(yaml.safe_load(open('releases/$r.yml'))['statut'])")
+          echo "release=$r" >> "$GITHUB_OUTPUT"
+          echo "statut=$statut" >> "$GITHUB_OUTPUT"
+      - name: Preuves par règles
+        if: steps.quelle.outputs.statut == 'candidate'
+        run: python scripts/release.py "${{ steps.quelle.outputs.release }}" | tee -a "$GITHUB_STEP_SUMMARY"
+      - id: agent
+        if: steps.quelle.outputs.statut == 'candidate'
+        uses: ./.github/actions/agent-claude
+        with:
+          actif: ${{ vars.AGENTS_IA_ACTIFS != 'false' && inputs.ia != false }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          modele: ${{ vars.CLAUDE_MODELE || 'claude-sonnet-5-5' }}
+          max_tours: "10"
+          perimetre: reports/
+          prompt: |
+            SIMULACRE (données fictives). Applique skills/release/SKILL.md à la release
+            ${{ steps.quelle.outputs.release }}. Écris uniquement
+            reports/release-${{ steps.quelle.outputs.release }}-dossier.md.
+      - uses: ./.github/actions/commit
+        with:
+          chemins: reports/
+          message: "Dossier go/no-go ${{ steps.quelle.outputs.release }} (brouillon)"

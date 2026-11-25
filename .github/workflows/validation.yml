@@ -1,0 +1,84 @@
+name: 2. Validation par les tech leads
+# Un tech lead pose l'étiquette validation:confirmee ou validation:ecartee sur un ticket
+# de signal. La décision est enregistrée (journal versionné) et les faux positifs recomptés.
+# Pas de file d'attente (concurrency) : GitHub annulerait les validations en attente au-delà
+# d'une. Les écritures simultanées dans le journal se fusionnent (merge=union, .gitattributes).
+on:
+  issues:
+    types: [labeled]
+permissions:
+  contents: write
+  issues: write
+jobs:
+  enregistrer:
+    if: >-
+      startsWith(github.event.label.name, 'validation:') &&
+      contains(github.event.issue.labels.*.name, 'signal-dependance')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      NUM: ${{ github.event.issue.number }}
+      ETIQUETTE: ${{ github.event.label.name }}
+      ACTEUR: ${{ github.event.sender.login }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparer
+
+      - id: meta
+        name: Lire le signal dans le ticket
+        env:
+          CORPS: ${{ github.event.issue.body }}
+        run: |
+          python - <<'PY'
+          import json, os, re
+          m = re.search(r"<!-- signal: (\{.*\}) -->", os.environ["CORPS"] or "")
+          meta = json.loads(m.group(1)) if m else {}
+          sain = lambda v: re.sub(r"[^A-Za-z0-9_.:-]", "", str(v or ""))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              for k in ("id", "source", "confiance", "trimestre"):
+                  f.write(f"{k}={sain(meta.get(k))}\n")
+              f.write(f"decision={sain(os.environ['ETIQUETTE'].split(':', 1)[1])}\n")
+          PY
+
+      - id: journal
+        name: Enregistrer la décision
+        env:
+          SIGNAL: ${{ steps.meta.outputs.id }}
+          DECISION: ${{ steps.meta.outputs.decision }}
+          SOURCE: ${{ steps.meta.outputs.source }}
+          CONFIANCE: ${{ steps.meta.outputs.confiance }}
+          TRIMESTRE: ${{ steps.meta.outputs.trimestre }}
+          EXIGER: ${{ vars.EXIGER_ROLES == 'true' && 'TL-' || '' }}
+        run: |
+          python scripts/journal.py validation --signal "$SIGNAL" --decision "$DECISION" \
+            --source "$SOURCE" --confiance "$CONFIANCE" --trimestre "$TRIMESTRE" \
+            --par "$ACTEUR" --exiger-role "$EXIGER"
+          python scripts/faux_positifs.py --trimestre "$TRIMESTRE" >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: ./.github/actions/commit
+        with:
+          chemins: validation/journal.csv
+          message: "Validation ${{ steps.meta.outputs.id }} : ${{ steps.meta.outputs.decision }} par ${{ steps.journal.outputs.role }} (@${{ github.event.sender.login }})"
+
+      - name: Mettre à jour le ticket
+        env:
+          ROLE: ${{ steps.journal.outputs.role }}
+          DECISION: ${{ steps.meta.outputs.decision }}
+        run: |
+          gh issue edit "$NUM" --remove-label a-valider || true
+          msg="Décision enregistrée dans validation/journal.csv : **$DECISION** (rôle : $ROLE)."
+          if [ "$ROLE" = "hors-roles" ]; then
+            msg="$msg Attention : ce compte n'a pas de rôle dans gouvernance/roles.yml."
+          fi
+          if [ "$DECISION" = "ecartee" ]; then
+            gh issue close "$NUM" --reason "not planned" --comment "$msg Compté comme faux positif du trimestre."
+          else
+            gh issue comment "$NUM" --body "$msg Des plans vont être proposés au PM."
+          fi
+
+      - name: Refus (rôle manquant)
+        if: failure() && steps.journal.outcome == 'failure'
+        run: |
+          gh issue edit "$NUM" --remove-label "$ETIQUETTE"
+          gh issue comment "$NUM" --body "Validation refusée : seul un tech lead déclaré dans gouvernance/roles.yml peut valider (variable EXIGER_ROLES=true)."

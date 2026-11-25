@@ -1,0 +1,96 @@
+name: 1. Dépendances
+# Analyse hebdomadaire (lancée par l'orchestration, ou à la main).
+# Règles d'abord (référence et mode dégradé), puis Claude, puis un ticket par signal.
+on:
+  workflow_dispatch:
+    inputs:
+      ia:
+        description: Utiliser l'agent IA (décocher pour montrer le mode dégradé)
+        type: boolean
+        default: true
+      tickets:
+        description: Ouvrir un ticket par signal
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      ia: {type: boolean, default: true}
+      tickets: {type: boolean, default: true}
+    outputs:
+      source:
+        value: ${{ jobs.analyse.outputs.source }}
+permissions:
+  contents: write
+  issues: write
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      source: ${{ steps.choix.outputs.source }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparer
+
+      - name: Anonymisation (contrôle)
+        run: python scripts/anonymiser.py verifier
+
+      - id: semaine
+        run: echo "semaine=$(date +%G-S%V)" >> "$GITHUB_OUTPUT"
+
+      - name: Règles (référence, mode dégradé)
+        run: |
+          python scripts/capacite.py
+          python scripts/dependances.py --semaine ${{ steps.semaine.outputs.semaine }}
+          python scripts/backlog.py --semaine ${{ steps.semaine.outputs.semaine }}
+
+      - id: agent
+        name: Agent IA dépendances
+        uses: ./.github/actions/agent-claude
+        with:
+          actif: ${{ vars.AGENTS_IA_ACTIFS != 'false' && inputs.ia != false }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          modele: ${{ vars.CLAUDE_MODELE || 'claude-sonnet-5-5' }}
+          perimetre: reports/
+          prompt: |
+            Tu es l'agent d'analyse des dépendances d'un SIMULACRE de planification du trimestre
+            (données fictives). Applique le skill skills/analyse-dependances/SKILL.md, puis
+            skills/backlog/SKILL.md, en respectant skills/principes-communs.md.
+            Trimestre planifié : voir config/parametres.yml. Semaine : ${{ steps.semaine.outputs.semaine }}.
+            Les règles ont déjà produit reports/signaux-${{ steps.semaine.outputs.semaine }}-regles.json,
+            reports/backlog-${{ steps.semaine.outputs.semaine }}-regles.json et reports/capacite-*.json.
+            Écris exactement deux fichiers :
+            - reports/signaux-${{ steps.semaine.outputs.semaine }}-ia.json (format du skill) ;
+            - reports/dependances-${{ steps.semaine.outputs.semaine }}.md.
+            Ne modifie aucun autre fichier.
+
+      - id: choix
+        name: Choisir la source des signaux (IA si valide, sinon règles)
+        run: |
+          s=${{ steps.semaine.outputs.semaine }}
+          if [ "${{ steps.agent.outputs.execute }}" = "true" ] && python scripts/signaux.py valider "reports/signaux-$s-ia.json"; then
+            echo "source=ia" >> "$GITHUB_OUTPUT"
+          else
+            echo "Signaux IA absents ou invalides : on garde les règles." >> "$GITHUB_STEP_SUMMARY"
+            rm -f "reports/signaux-$s-ia.json"
+            cp "reports/dependances-$s-regles.md" "reports/dependances-$s.md"
+            echo "source=regles" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Évaluation contre la vérité terrain (simulacre uniquement)
+        run: |
+          s=${{ steps.semaine.outputs.semaine }}
+          for f in reports/signaux-$s-*.json; do python scripts/evaluer.py "$f"; done
+          cat evaluation/rapports/evaluation-$s-*.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: ./.github/actions/commit
+        with:
+          chemins: reports/ evaluation/rapports/
+          message: "Dépendances ${{ steps.semaine.outputs.semaine }} : signaux (source ${{ steps.choix.outputs.source }})"
+
+      - name: Un ticket par signal
+        if: inputs.tickets != false
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/signaux.py tickets reports/signaux-${{ steps.semaine.outputs.semaine }}-${{ steps.choix.outputs.source }}.json
