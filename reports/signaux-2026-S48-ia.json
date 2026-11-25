@@ -1,0 +1,307 @@
+{
+  "semaine": "2026-S48",
+  "trimestre": "2027-T1",
+  "source": "ia",
+  "signaux": [
+    {
+      "id": "DEP-EP-201-EQ-C",
+      "epique": "EP-201",
+      "titre_epique": "Tarification dynamique selon la disponibilité",
+      "equipe_source": "EQ-B",
+      "equipe_cible": "EQ-C",
+      "domaines": ["DOM-06", "DOM-05"],
+      "types": ["sequence-coordination", "capacite-charge"],
+      "score": 7,
+      "confiance": "haute",
+      "criteres": [
+        "domaine coché à 100 %",
+        "cite une feature de l'équipe cible non livrée",
+        "la feature citée est prévue après le trimestre de l'épique, ou non planifiée",
+        "lien entre ces domaines déjà confirmé ou appris",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "FEAT-061 (Flux de disponibilité temps réel, planifiee 2027-T2)",
+        "lien DOM-04 / DOM-06 confirmé en 2026-T3 (capacite-charge)",
+        "EQ-C : ratio charge / capacité 1.18 (surcharge)"
+      ],
+      "justification": "EP-201 est prévue en 2027-T1 mais lit le flux FEAT-061, prévu par EQ-C en 2027-T2 seulement : en l'état, l'épique ne peut pas être terminée dans le trimestre. EQ-C est déjà en surcharge (1.18), avancer FEAT-061 aggraverait sa charge. Le type connaissance des règles est retiré : EQ-B a une expertise moyenne sur DOM-06.",
+      "doute": "Faut-il décaler EP-201 en 2027-T2, ou une lecture du stock en différé (sans FEAT-061) suffit-elle pour une première version ? Le besoin sur DOM-05 (taux de réservation) peut-il passer par FEAT-051, déjà livrée ?"
+    },
+    {
+      "id": "DEP-EP-303-EQ-D",
+      "epique": "EP-303",
+      "titre_epique": "Gestion des retours anticipés",
+      "equipe_source": "EQ-C",
+      "equipe_cible": "EQ-D",
+      "domaines": ["DOM-08"],
+      "types": ["connaissance", "sequence-coordination", "capacite-charge"],
+      "score": 6,
+      "confiance": "haute",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "cite une feature de l'équipe cible non livrée",
+        "la feature citée est prévue après le trimestre de l'épique, ou non planifiée",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "FEAT-081 (Avoirs partiels, planifiee 2027-T2, portée par EP-403)",
+        "EQ-D : 26 % de présents non disponibles (alerte)"
+      ],
+      "justification": "Le remboursement des jours non utilisés repose sur l'avoir partiel FEAT-081, portée par EP-403 en 2027-T2, alors qu'EP-303 est prévue en 2027-T1. EQ-C n'a pas d'expertise en facturation et EQ-D a 26 % de présents non disponibles.",
+      "doute": "EQ-D peut-elle avancer EP-403 (40 pts) en 2027-T1 malgré son taux de présents non disponibles, ou faut-il décaler EP-303 en 2027-T2 ?"
+    },
+    {
+      "id": "DEP-EP-601-EQ-C",
+      "epique": "EP-601",
+      "titre_epique": "Tableau de bord de pilotage des locations",
+      "equipe_source": "EQ-F",
+      "equipe_cible": "EQ-C",
+      "domaines": ["DOM-06", "DOM-05"],
+      "types": ["sequence-coordination", "capacite-charge"],
+      "score": 5,
+      "confiance": "haute",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "cite une épique de l'équipe cible",
+        "lien entre ces domaines déjà confirmé ou appris",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "EP-302 (Inventaire multi-sites, EQ-C, 2027-T1)",
+        "lien DOM-11 / DOM-06 confirmé en 2026-T4 (sequence-coordination)",
+        "EQ-C : ratio charge / capacité 1.18 (surcharge)"
+      ],
+      "justification": "Le découpage par site d'EP-601 suppose le modèle de stock multi-sites d'EP-302, prévue le même trimestre par une équipe en surcharge : EP-302 doit être livrée tôt dans 2027-T1, faute de quoi EP-601 glisse. Le type connaissance des règles est retiré : EQ-F a une expertise moyenne sur DOM-06. Ce n'est pas un doublon d'EP-302 (voir rapport backlog) mais une dépendance de séquence.",
+      "doute": "À quel sprint EP-302 expose-t-elle le modèle par site ? Si EP-302 glisse (EQ-C à 1.18), EP-601 peut-elle démarrer sur un site unique ?"
+    },
+    {
+      "id": "DEP-EP-102-EQ-F",
+      "epique": "EP-102",
+      "titre_epique": "Suppression de compte à la demande du client",
+      "equipe_source": "EQ-A",
+      "equipe_cible": "EQ-F",
+      "domaines": ["DOM-12", "DOM-11"],
+      "types": ["connaissance", "sequence-coordination"],
+      "score": 5,
+      "confiance": "haute",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "cite une feature de l'équipe cible non livrée",
+        "lien entre ces domaines déjà confirmé ou appris",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine"
+      ],
+      "preuves": [
+        "FEAT-121 (Purge sélective des archives, planifiee 2027-T1, portée par EP-602)",
+        "relation apprise DOM-01 → DOM-12 (2026-T3, dépendance ratée puis constatée)"
+      ],
+      "justification": "La suppression passe par la purge sélective FEAT-121, portée par EP-602 le même trimestre : EP-602 doit être livrée avant la fin d'EP-102. EQ-A n'a d'expertise ni en conformité ni en reporting, et ce lien a déjà été raté en 2026-T3. EQ-F n'est pas chargée (0.61), ce qui rend l'ordonnancement réaliste.",
+      "doute": "EP-602 peut-elle être planifiée en début de trimestre ? Le retrait des jeux de reporting (DOM-11) a-t-il une feature identifiée, ou reste-t-il à concevoir avec EQ-F ?"
+    },
+    {
+      "id": "DEP-EP-301-EQ-D",
+      "epique": "EP-301",
+      "titre_epique": "Réservation récurrente",
+      "equipe_source": "EQ-C",
+      "equipe_cible": "EQ-D",
+      "domaines": ["DOM-07"],
+      "types": ["sequence-coordination", "capacite-charge"],
+      "score": 5,
+      "confiance": "haute",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "cite une feature de l'équipe cible non livrée",
+        "lien entre ces domaines déjà confirmé ou appris",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "FEAT-071 (Prélèvement récurrent, planifiee 2027-T1, portée par EP-402)",
+        "lien DOM-05 / DOM-07 confirmé en 2026-T4 (sequence-coordination)",
+        "EQ-D : 26 % de présents non disponibles (alerte)"
+      ],
+      "justification": "Chaque occurrence est payée par FEAT-071, portée par EP-402 le même trimestre : EP-402 doit être livrée avant la mise en service d'EP-301. Le taux de présents non disponibles d'EQ-D fait peser un risque de glissement sur EP-402.",
+      "doute": "À quel sprint EP-402 met-elle le mandat à disposition ? Ce lien de séquence intra-trimestre a déjà été confirmé en 2026-T4 : quel retard avait-il causé ?"
+    },
+    {
+      "id": "DEP-EP-203-EQ-D",
+      "epique": "EP-203",
+      "titre_epique": "Codes promotionnels",
+      "equipe_source": "EQ-B",
+      "equipe_cible": "EQ-D",
+      "domaines": ["DOM-08", "DOM-07"],
+      "types": ["connaissance", "capacite-charge"],
+      "score": 4,
+      "confiance": "moyenne",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "lien entre ces domaines déjà confirmé ou appris",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "relation apprise DOM-07 → DOM-08 (« tout moyen de paiement a un impact facture », 2026-T2)",
+        "EQ-D : 26 % de présents non disponibles (alerte)"
+      ],
+      "justification": "Le texte exige une ligne de remise distincte sur la facture et son report en cas de remboursement : c'est une modification de CMP-08, où EQ-B n'a pas d'expertise. EQ-B a une expertise moyenne en paiement, le besoin porte surtout sur la facturation.",
+      "doute": "Le report de la remise « en cas de remboursement » passe-t-il par les avoirs partiels FEAT-081 (prévus en 2027-T2) ? Si oui, il faut ajouter le type sequence-coordination et la confiance monte."
+    },
+    {
+      "id": "DEP-EP-103-EQ-C",
+      "epique": "EP-103",
+      "titre_epique": "Délégation d'accès entre comptes",
+      "equipe_source": "EQ-A",
+      "equipe_cible": "EQ-C",
+      "domaines": ["DOM-05"],
+      "types": ["connaissance", "capacite-charge"],
+      "score": 3,
+      "confiance": "moyenne",
+      "criteres": [
+        "besoin explicite dans le texte sur un domaine non coché (critère propre à l'IA)",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "texte EP-103 : « déléguer des droits de réservation », « chaque action déléguée est attribuée au compte délégué »",
+        "EQ-C : ratio charge / capacité 1.18 (surcharge)"
+      ],
+      "justification": "L'épique ne coche que DOM-01 et DOM-02, mais délègue des droits de réservation et exige que chaque action déléguée soit attribuée au compte délégué : le composant de réservation (CMP-05) doit vraisemblablement contrôler la délégation et enregistrer l'auteur réel. Ni les règles ni le cochage ne le voient.",
+      "doute": "Si le jeton porte le périmètre de délégation et que CMP-05 enregistre déjà l'identité appelante, il n'y a peut-être rien à changer côté EQ-C. Question au tech lead d'EQ-C : l'auteur d'une réservation est-il distinct du titulaire du compte dans le modèle actuel ?"
+    },
+    {
+      "id": "DEP-EP-402-EQ-E",
+      "epique": "EP-402",
+      "titre_epique": "Prélèvement récurrent",
+      "equipe_source": "EQ-D",
+      "equipe_cible": "EQ-E",
+      "domaines": ["DOM-09"],
+      "types": ["connaissance", "capacite-charge"],
+      "score": 3,
+      "confiance": "moyenne",
+      "criteres": [
+        "besoin explicite dans le texte sur un domaine non coché (critère propre à l'IA)",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "texte EP-402 : « gestion des échecs de prélèvement et des relances au client »",
+        "EQ-E : ratio charge / capacité 1.27 (surcharge)",
+        "EP-503 (refonte du moteur de notifications, EQ-E, 2027-T1)"
+      ],
+      "justification": "Les relances au client relèvent des notifications (DOM-09), non cochées, où EQ-D n'a pas d'expertise. EQ-E est l'équipe la plus chargée (1.27) et refait son moteur de notifications le même trimestre (EP-503). EP-401 a le même besoin de relance et passera sans doute par EP-402.",
+      "doute": "Les modèles paramétrables FEAT-092 (livrée 2026-T3) suffisent-ils pour les relances ? Si oui, le besoin restant est nul et le signal tombe. Sinon, sur quel moteur construire : l'actuel ou celui d'EP-503 ?"
+    },
+    {
+      "id": "DEP-EP-302-EQ-F",
+      "epique": "EP-302",
+      "titre_epique": "Inventaire multi-sites",
+      "equipe_source": "EQ-C",
+      "equipe_cible": "EQ-F",
+      "domaines": ["DOM-12"],
+      "types": ["connaissance"],
+      "score": 2,
+      "confiance": "basse",
+      "criteres": [
+        "besoin explicite dans le texte sur un domaine non coché (critère propre à l'IA)",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine"
+      ],
+      "preuves": [
+        "texte EP-302 : « chaque mouvement de matériel entre sites doit être tracé et conservé pour les contrôles réglementaires »",
+        "DOM-12 (Conformité et archivage) non coché"
+      ],
+      "justification": "Le signal des règles portait sur DOM-11 via FEAT-111, déjà livrée : ce volet est écarté. En revanche, le texte exige une conservation réglementaire des mouvements de stock, qui relève de DOM-12, non coché, et où EQ-C n'a pas d'expertise. Le score reste bas parce que rien n'est coché ni cité, mais le besoin écrit est net.",
+      "doute": "Quelles durées de conservation s'appliquent aux mouvements de stock, et l'archivage existant (CMP-12) les couvre-t-il sans développement ? À trancher avec le tech lead d'EQ-F avant la planification."
+    },
+    {
+      "id": "DEP-EP-401-EQ-F",
+      "epique": "EP-401",
+      "titre_epique": "Paiement en plusieurs fois",
+      "equipe_source": "EQ-D",
+      "equipe_cible": "EQ-F",
+      "domaines": ["DOM-12"],
+      "types": ["connaissance"],
+      "score": 2,
+      "confiance": "basse",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine"
+      ],
+      "preuves": [
+        "texte EP-401 : « les échéanciers et les justificatifs doivent être conservés selon les durées légales »"
+      ],
+      "justification": "La conservation légale des échéanciers relève de DOM-12, où EQ-D n'a pas d'expertise. Aucune feature n'est citée : il s'agit d'un besoin d'expertise plus que d'une livraison à attendre. EQ-F n'est pas chargée (0.61).",
+      "doute": "Les durées légales des échéanciers diffèrent-elles de celles des factures, déjà gérées ? Si l'archivage actuel suffit, une revue par EQ-F peut remplacer une dépendance."
+    },
+    {
+      "id": "DEP-EP-104-EQ-E",
+      "epique": "EP-104",
+      "titre_epique": "Gestion des consentements de communication",
+      "equipe_source": "EQ-A",
+      "equipe_cible": "EQ-E",
+      "domaines": ["DOM-09"],
+      "types": ["sequence-coordination", "capacite-charge"],
+      "score": 2,
+      "confiance": "basse",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %",
+        "équipe cible en surcharge ou trop de présents non disponibles"
+      ],
+      "preuves": [
+        "EP-501 (Centre de préférences de contact, EQ-E, 2027-T1) : même besoin décrit",
+        "EQ-E : ratio charge / capacité 1.27 (surcharge)"
+      ],
+      "justification": "EP-104 et EP-501 décrivent le même écran (canaux et sujets acceptés par le client) dans deux équipes. Le risque principal n'est pas une livraison à attendre mais deux implémentations concurrentes du même consentement : il faut décider qui porte le stockage et qui l'applique aux envois.",
+      "doute": "Épique commune ou doublon ? Le PM et les tech leads d'EQ-A et EQ-E doivent trancher qui porte l'écran et le stockage. Si une seule épique est gardée, ce signal et DEP-EP-501-EQ-A deviennent un seul lien de coordination."
+    },
+    {
+      "id": "DEP-EP-104-EQ-F",
+      "epique": "EP-104",
+      "titre_epique": "Gestion des consentements de communication",
+      "equipe_source": "EQ-A",
+      "equipe_cible": "EQ-F",
+      "domaines": ["DOM-12"],
+      "types": ["connaissance"],
+      "score": 2,
+      "confiance": "basse",
+      "criteres": [
+        "lien entre ces domaines déjà confirmé ou appris",
+        "l'équipe de l'épique n'a pas d'expertise sur le domaine"
+      ],
+      "preuves": [
+        "relation apprise DOM-01 → DOM-12 (« données personnelles : règles de conservation », 2026-T3)",
+        "texte EP-104 : « le choix est historisé », « l'historique des consentements est consultable »",
+        "DOM-12 coché à 30 %, sous le seuil de 50"
+      ],
+      "justification": "L'historique des consentements est une donnée personnelle conservée dans la durée : c'est exactement le lien DOM-01 → DOM-12 raté en 2026-T3. Les règles ne le voient pas parce que DOM-12 est coché sous le seuil.",
+      "doute": "Le texte ne parle pas de durée de conservation : l'historique a-t-il une durée légale ou une obligation de preuve ? Si EP-501 porte finalement le stockage, ce signal s'applique à EQ-E au lieu d'EQ-A."
+    },
+    {
+      "id": "DEP-EP-501-EQ-A",
+      "epique": "EP-501",
+      "titre_epique": "Centre de préférences de contact",
+      "equipe_source": "EQ-E",
+      "equipe_cible": "EQ-A",
+      "domaines": ["DOM-01"],
+      "types": ["sequence-coordination"],
+      "score": 1,
+      "confiance": "basse",
+      "criteres": [
+        "domaine coché entre le seuil et 99 %"
+      ],
+      "preuves": [
+        "EP-104 (Gestion des consentements de communication, EQ-A, 2027-T1) : même besoin décrit"
+      ],
+      "justification": "Pendant de DEP-EP-104-EQ-E. EQ-E a une expertise moyenne sur DOM-01 et EQ-A n'est pas en surcharge (0.88). Les règles comptaient un lien historique, mais il porte sur DOM-01 / DOM-12 et non sur la paire DOM-09 / DOM-01 : le critère est retiré et le score passe de 2 à 1.",
+      "doute": "Même question que DEP-EP-104-EQ-E : qui porte l'écran et le stockage des préférences ?"
+    }
+  ],
+  "ecartes": [
+    {"epique": "EP-301", "equipe_cible": "EQ-E", "motif": "FEAT-092 (modèles de notification) déjà livrée en 2026-T3 : simple utilisation, pas de travail attendu d'EQ-E."},
+    {"epique": "EP-302", "equipe_cible": "EQ-F", "motif": "Volet DOM-11 seulement : FEAT-111 (export du stock) déjà livrée en 2026-T4. Le signal est conservé sur DOM-12 (conservation réglementaire)."},
+    {"epique": "EP-502", "equipe_cible": "EQ-C", "motif": "Lecture seule via FEAT-051, déjà livrée en 2026-T2."},
+    {"epique": "EP-502", "equipe_cible": "EQ-A", "motif": "Lecture seule via FEAT-011, déjà livrée, et EQ-E a une expertise moyenne sur DOM-01."},
+    {"epique": "EP-101", "equipe_cible": "EQ-E", "motif": "FEAT-091 déjà livrée en 2026-T3 et EQ-A a une expertise moyenne sur DOM-09. Point de vigilance : la refonte EP-503 touche ce moteur."},
+    {"epique": "EP-202", "equipe_cible": "EQ-F", "motif": "Le texte demande que les statistiques de consultation restent inchangées : aucun travail décrit côté EQ-F, mais question posée sur la compatibilité avec la nouvelle structure des fiches."},
+    {"epique": "EP-603", "equipe_cible": "EQ-E", "motif": "Épique sans équipe (a-definir) : pas de signal tant que l'ownership n'est pas tranché. Elle toucherait EQ-B (DOM-03) et EQ-E (DOM-09, DOM-10), cette dernière déjà en surcharge."}
+  ]
+}

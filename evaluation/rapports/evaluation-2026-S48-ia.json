@@ -1,0 +1,138 @@
+{
+  "source": "ia",
+  "semaine": "2026-S48",
+  "nb_signaux": 13,
+  "nb_faux_positifs": 3,
+  "nb_dependances": 9,
+  "nb_trouvees": 9,
+  "manquees": [],
+  "signaux": [
+    {
+      "id": "DEP-EP-201-EQ-C",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-02"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-303-EQ-D",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-05"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-601-EQ-C",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-07"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-102-EQ-F",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-01"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-301-EQ-D",
+      "confiance": "haute",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-04"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-203-EQ-D",
+      "confiance": "moyenne",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-03"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-103-EQ-C",
+      "confiance": "moyenne",
+      "verdict": "faux positif",
+      "correspond_a": [],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-402-EQ-E",
+      "confiance": "moyenne",
+      "verdict": "faux positif",
+      "correspond_a": [],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-302-EQ-F",
+      "confiance": "basse",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-08"
+      ],
+      "piege": [
+        "PG-04"
+      ]
+    },
+    {
+      "id": "DEP-EP-401-EQ-F",
+      "confiance": "basse",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-06"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-104-EQ-E",
+      "confiance": "basse",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-09"
+      ],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-104-EQ-F",
+      "confiance": "basse",
+      "verdict": "faux positif",
+      "correspond_a": [],
+      "piege": []
+    },
+    {
+      "id": "DEP-EP-501-EQ-A",
+      "confiance": "basse",
+      "verdict": "vrai",
+      "correspond_a": [
+        "GT-09"
+      ],
+      "piege": []
+    }
+  ],
+  "calibration": {
+    "haute": {
+      "signaux": 5,
+      "faux_positifs": 0
+    },
+    "moyenne": {
+      "signaux": 3,
+      "faux_positifs": 2
+    },
+    "basse": {
+      "signaux": 5,
+      "faux_positifs": 1
+    }
+  }
+}
